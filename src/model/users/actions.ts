@@ -265,6 +265,19 @@ export const userActions = {
                     console.log('+++++ createLTCWallet failed, reason:', _resp);
                   }
                 });
+
+              UserService.singleton()
+                .createDASHWallet(createWalletParams)
+                .then((_resp: any) => {
+                  if (_resp.rc === 1) {
+                    dispatch(userActions.getBalance());
+                    dispatch(
+                      userActions.getMyWallets(profile.auth_version, password)
+                    );
+                  } else {
+                    console.log('+++++ createDASHWallet failed, reason:', _resp);
+                  }
+                });
             }
             UserService.singleton()
               .setRecoveryKeys(params)
@@ -425,7 +438,7 @@ export const userActions = {
         .getMyWallets()
         .then((resp: any) => {
           if (resp.rc === 1) {
-            if (resp.my_wallets.length > 2 || (resp.my_wallets.length == 1 && auth_version != 4)) {
+            if (resp.my_wallets.length > 3 || (resp.my_wallets.length == 1 && auth_version != 4)) {
               decryptWallets(dispatch, resp.my_wallets, auth_version, password);
             } else {
               let userProfile = store.getState().userData.user;
@@ -486,12 +499,7 @@ export const userActions = {
                   });
               }
               //if no LTC wallet
-              if (
-                userActions.getCurrencyWallet(
-                  resp.my_wallets,
-                  CURRENCY_TYPE.LTC
-                ).length == 0
-              ) {
+              if (userActions.getCurrencyWallet(resp.my_wallets,CURRENCY_TYPE.LTC).length == 0) {
                 UserService.singleton()
                   .createLTCWallet(params)
                   .then((resp: any) => {
@@ -511,7 +519,32 @@ export const userActions = {
                           }
                         });
                     } else {
-                      console.log('createBTCWallet failed, reason:', resp);
+                      console.log('createLTCWallet failed, reason:', resp);
+                    }
+                  });
+              }
+              //if no DASH wallet
+              if ( userActions.getCurrencyWallet(resp.my_wallets,CURRENCY_TYPE.DASH).length == 0) {
+                UserService.singleton()
+                  .createDASHWallet(params)
+                  .then((resp: any) => {
+                    if (resp.rc === 1) {
+                      UserService.singleton()
+                        .getMyWallets()
+                        .then((resp: any) => {
+                          if (resp.rc === 1) {
+                            decryptWallets(
+                              dispatch,
+                              resp.my_wallets,
+                              auth_version,
+                              password
+                            );
+                          } else {
+                            dispatch(userActions.getMyWalletsFailed(resp));
+                          }
+                        });
+                    } else {
+                      console.log('createDASHWallet failed, reason:', resp);
                     }
                   });
               }
@@ -561,10 +594,7 @@ export const userActions = {
             if (userSelectedCurrency == CURRENCY_TYPE.FLASH) {
               balanceData.balance = utils.satoshiToFlash(resp.balance);
               balanceData.ubalance = utils.satoshiToFlash(resp.ubalance);
-            } else if (userSelectedCurrency == CURRENCY_TYPE.BTC) {
-              balanceData.balance = resp.balance;
-              balanceData.ubalance = resp.ubalance;
-            } else if (userSelectedCurrency == CURRENCY_TYPE.LTC) {
+            } else if (userSelectedCurrency != CURRENCY_TYPE.FLASH ) {
               balanceData.balance = resp.balance;
               balanceData.ubalance = resp.ubalance;
             }

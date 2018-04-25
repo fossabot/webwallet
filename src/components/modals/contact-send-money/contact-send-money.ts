@@ -96,6 +96,21 @@ export default class ContactSendMoney extends BaseElement {
         });
     }
 
+    if (parseInt(localStorage.getItem('currency_type')) == CURRENCY_TYPE.DASH) {
+      CommonService.singleton()
+        .getBCMedianTxSize()
+        .then((resp: any) => {
+          if (resp.rc === 1 && resp.median_tx_size) {
+            tag.bcMedianTxSize = resp.median_tx_size;
+          }
+        });
+      CommonService.singleton()
+        .getDASHSatoshiPerByte()
+        .then((resp: any) => {
+          tag.SatoshiPerByte = parseInt(resp.high_fee_per_kb);
+        });
+    }
+
     $('#sendByContact').modal('show');
     $('#contact-send-amount').keypress(utils.filterNumberEdit);
     $('#contact-send-amount').blur(utils.formatAmountInput);

@@ -90,4 +90,11 @@ export default class CommonService {
       });
     });
   }
+  getDASHSatoshiPerByte() {
+    return new Promise((resolve, reject) => {
+      AppService.getInstance().getDASHSatoshiPerByte(resp => {
+        resolve(resp);
+      });
+    });
+  }
 }
