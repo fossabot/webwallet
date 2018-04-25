@@ -77,7 +77,7 @@ export const NETWORKS = {
         public: 0x043587cf,
         private: 0x04358394
     },
-    pubKeyHash: 0x8c
+    pubKeyHash: 0x8c,
     scriptHash: 0x13,
     wif: 0xef,
     dustThreshold: 546
