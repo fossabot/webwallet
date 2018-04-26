@@ -549,6 +549,15 @@ export default class AppService {
     $.ajax(options);
   }
 
+  getFixedTransactionFee(params, cb) {
+    let options = this.makeRequestOption(
+      'api/fixed-txn-fee',
+      params,
+      'get',
+      cb
+    );
+    $.ajax(options);
+  }  
   setAuthInfo(authVersion, sessionToken) {
     this.authVersion = authVersion;
     this.sessionToken = sessionToken;
