@@ -149,6 +149,14 @@ export default class UserService {
     });
   }
 
+  createZCASHWallet(params) {
+    return new Promise(resolve => {
+      AppService.getInstance().createZCASHWallet(params, resp => {
+        resolve(resp);
+      });
+    });
+  }
+
   getWalletSecret(idToken) {
     return new Promise(resolve => {
       AppService.getInstance().walletSecret(idToken, resp => {

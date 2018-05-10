@@ -87,6 +87,14 @@ export default class AcceptMoneyRequest extends Element {
         });
     }
 
+    if (parseInt(localStorage.getItem('currency_type')) == CURRENCY_TYPE.ZCASH) {
+      CommonService.singleton()
+        .getFixedTransactionFee()
+        .then((resp: any) => {
+          tag.fixedTxnFee = resp.fixed_txn_fee;
+        });
+    }
+
     $('#acceptRequestDialog').modal('show');
     var userSelectedCurrency = localStorage.getItem('currency_type');
     //Get sender's wallet info

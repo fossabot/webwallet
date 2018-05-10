@@ -446,6 +446,16 @@ export default class AppService {
     $.ajax(options);
   }
 
+  createZCASHWallet(params, cb) {
+    let options = this.makeRequestOption(
+      'api/createZcashWallet',
+      params,
+      'post',
+      cb
+    );
+    $.ajax(options);
+  }
+
   setRecoveryKeys(params, cb) {
     let options = this.makeRequestOption(
       'api/setRecoveryKeys',

@@ -97,6 +97,11 @@ export function duffToDash(num) {
   return parseFloat(new Big(num).div(100000000).toString());
 }
 
+export function zedToZcash(num) {
+  if (num == undefined || num === '') return;
+  return parseFloat(new Big(num).div(100000000).toString());
+}
+
 export function localizeFlash(num) {
   if (num == undefined || num === '') return;
   return parseFloat(num).toLocaleString('en', { maximumFractionDigits: 8 });
@@ -192,6 +197,9 @@ export function calcFee(amount, bcMedianTxSize, fastestFee , fixedTxnFee) {
       let duff = bcMedianTxSize * fastestFee;
       console.log(duff);
       return duffToDash(duff.toFixed(0));  */
+    case CURRENCY_TYPE.ZCASH:
+      return fixedTxnFee ;
+      break;
   }
 }
 
@@ -210,6 +218,9 @@ export function formatCurrency(amount) {
       break;
     case CURRENCY_TYPE.DASH:
       return `${amount} DASH`;
+      break;
+    case CURRENCY_TYPE.ZCASH:
+      return `${amount} ZCASH`;
       break;
   }
 }
@@ -403,6 +414,11 @@ export function isValidCryptoAddress(value) {
         if (APP_MODE == 'PROD') {
           network = NETWORKS.DASH;
         } else network = NETWORKS.DASH_TESTNET;
+        break;
+      case CURRENCY_TYPE.ZCASH:
+        if (APP_MODE == 'PROD') {
+          network = NETWORKS.ZCASH;
+        } else network = NETWORKS.ZCASH_TESTNET;
         break;
       case CURRENCY_TYPE.FLASH:
       default:

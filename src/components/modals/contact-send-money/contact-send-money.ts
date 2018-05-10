@@ -105,6 +105,14 @@ export default class ContactSendMoney extends BaseElement {
         });
     }
 
+    if (parseInt(localStorage.getItem('currency_type')) == CURRENCY_TYPE.ZCASH) {
+      CommonService.singleton()
+        .getFixedTransactionFee()
+        .then((resp: any) => {
+          tag.fixedTxnFee = resp.fixed_txn_fee;
+        });
+    }
+
     $('#sendByContact').modal('show');
     $('#contact-send-amount').keypress(utils.filterNumberEdit);
     $('#contact-send-amount').blur(utils.formatAmountInput);

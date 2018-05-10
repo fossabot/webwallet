@@ -8,6 +8,7 @@ import {
   satoshiToBtc,
   litoshiToLtc,
   duffToDash,
+  zedToZcash,
   formatCurrency,
   getDisplayDateTime,
   localizeFlash,
@@ -30,6 +31,7 @@ export default class TransactionDetails extends Element {
   satoshiToBtc = satoshiToBtc;
   litoshiToLtc = litoshiToLtc;
   duffToDash = duffToDash;
+  zedToZcash = zedToZcash;
   formatCurrency = formatCurrency;
   decimalFormat = decimalFormat;
   getDisplayDateTime = getDisplayDateTime;
@@ -54,6 +56,10 @@ export default class TransactionDetails extends Element {
         break;
       case CURRENCY_TYPE.DASH:
         this.txnDetail.fee = duffToDash(this.txnDetail.fee);
+        this.showConfirmationNotice = true;
+        break;
+      case CURRENCY_TYPE.ZCASH:
+        this.txnDetail.fee = zedToZcash(this.txnDetail.fee);
         this.showConfirmationNotice = true;
         break;
       case CURRENCY_TYPE.FLASH:

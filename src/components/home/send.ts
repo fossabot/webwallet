@@ -98,6 +98,14 @@ export default class HomeSend extends BaseElement {
         });
     }
 
+    if (parseInt(localStorage.getItem('currency_type')) == CURRENCY_TYPE.ZCASH) {
+      CommonService.singleton()
+        .getFixedTransactionFee()
+        .then((resp: any) => {
+          tag.fixedTxnFee = resp.fixed_txn_fee;
+        });
+    }
+
     $('#amount-input').on(
       'propertychange change click paste',
       this.calculateFee

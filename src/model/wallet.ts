@@ -113,6 +113,12 @@ export default class Wallet {
         else 
           network = NETWORKS.DASH_TESTNET;
         break;
+      case CURRENCY_TYPE.ZCASH:
+        if (APP_MODE == 'PROD') 
+          network = NETWORKS.ZCASH;
+        else 
+          network = NETWORKS.ZCASH_TESTNET;
+        break;
       case CURRENCY_TYPE.FLASH:
       default:
         network = NETWORKS.FLASH;

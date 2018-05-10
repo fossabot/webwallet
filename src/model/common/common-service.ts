@@ -97,6 +97,13 @@ export default class CommonService {
       });
     });
   }
+  getZCASHSatoshiPerByte() {
+    return new Promise((resolve, reject) => {
+      AppService.getInstance().getDASHSatoshiPerByte(resp => {
+        resolve(resp);
+      });
+    });
+  }
   getFixedTransactionFee() {
     var userSelectedCurrency = localStorage.getItem('currency_type');
     let params = {
