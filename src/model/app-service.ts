@@ -1,6 +1,6 @@
 import { storeUserKey, getUserKey } from './utils';
-const HOST_URL = 'https://keys.flashcoin.io/';
-export const APP_MODE = 'PROD'; //DEV, PROD
+const HOST_URL = 'https://dev02keys.flashcoin.io/';
+export const APP_MODE = 'DEV'; //DEV, PROD
 
 export default class AppService {
   private authVersion = 4;
@@ -594,7 +594,7 @@ export default class AppService {
       cb
     );
     $.ajax(options);
-  }  
+  }
   setAuthInfo(authVersion, sessionToken) {
     this.authVersion = authVersion;
     this.sessionToken = sessionToken;
